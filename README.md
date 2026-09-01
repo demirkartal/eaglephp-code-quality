@@ -96,14 +96,32 @@ Example `composer.json` scripts:
 
 ## Core stack
 
-| Tool | Constraint |
-| ------ | ------------ |
-| PHP | `^8.4 \|\| ^8.5` |
-| PHPStan | `^2.2` |
-| Laravel Pint | `^1.30` |
-| extension-installer | `^1.4` |
+| Tool | Constraint | Resolves to (stable) |
+| ------ | ------------ | --------------------- |
+| PHP | `^8.4 \|\| ^8.5` | — |
+| PHPStan | `^2.2` | 2.2.x (e.g. 2.2.11) |
+| Laravel Pint | `^1.30` | 1.30.x (e.g. 1.30.5) |
+| extension-installer | `^1.4` | 1.4.x |
+| phpstan-strict-rules | `^2.0` | 2.0.x |
+| phpstan-phpunit | `^2.0` | 2.0.x |
+| phpstan-deprecation-rules | `^2.0` | 2.0.x |
+| type-coverage | `^2.3` | 2.3.x |
 
-Active config: [`phpstan.neon`](phpstan.neon) — `config.level10.neon`, `phpVersion: 80400`.
+Active config: [`phpstan.neon`](phpstan.neon) — `bleedingEdge`, `config.level10.neon`, `phpVersion: 80400`.
+
+## Alignment with PHPStan “Want to go further?”
+
+This package implements the [PHPStan “Want to go further?”](https://phpstan.org/user-guide/rule-levels#want-to-go-further%3F) recommendations out of the box:
+
+| Recommendation | How this package provides it |
+| ---------------- | ------------------------------ |
+| phpstan-strict-rules | Bundled; auto-loaded via extension-installer |
+| Bleeding Edge | `bleedingEdge.neon` included in `phpstan.neon` |
+| Level 10 | `config.level10.neon` chain (not just `parameters.level`) |
+| Extra strict parameters | `checkUninitializedProperties`, `checkBenevolentUnionTypes`, `rememberPossiblyImpureFunctionValues: false`, array offset checks, exception checks — see table below |
+| Framework extensions | **Consumer responsibility** — install Symfony/Doctrine/Laravel PHPStan extensions in your project if needed |
+
+Consumers do **not** need to duplicate vendor includes, `customRulesetUsed`, or `parameters.level` in their own `phpstan.neon`.
 
 ## PHPStan rule levels
 
@@ -151,7 +169,6 @@ These flags extend beyond Level 10:
 | `checkArgumentsPassedByReference` | Types of variables passed by reference |
 | `checkBenevolentUnionTypes` | No lenient union assumptions; explicit narrowing required |
 | `checkClassCaseSensitivity` | Exact case for class names and namespaces |
-| `checkDynamicProperties` | Blocks runtime dynamic properties on unannotated objects |
 | `checkMissingCallableSignature` | Rejects bare `callable` / `Closure`; requires full signature |
 | `checkMissingOverrideMethodAttribute` | Requires `#[\Override]` on overridden methods |
 | `checkTooWideParameterOutInProtectedAndPublicMethods` | `@param-out` broader than actual assignments |
@@ -164,7 +181,6 @@ These flags extend beyond Level 10:
 | `reportPossiblyNonexistentConstantArrayOffset` | Array access with possibly missing constant keys |
 | `reportPossiblyNonexistentGeneralArrayOffset` | Dynamic array keys not statically proven |
 | `reportUnmatchedIgnoredErrors` | Stale `ignoreErrors` baseline entries fail CI |
-| `reportWrongPhpDocTypeInVarTag` | `@var` contradicting inferred types |
 | `rememberPossiblyImpureFunctionValues` | `false` — no assuming identical non-pure call results |
 | `treatPhpDocTypesAsCertain` | `false` — defensive checks even when PHPDoc is present |
 | `exceptions.reportUncheckedExceptionDeadCatch` | `catch` for exceptions never thrown in `try` |
@@ -172,7 +188,30 @@ These flags extend beyond Level 10:
 | `exceptions.check.throwTypeCovariance` | Override may only throw same or narrower exceptions |
 | `exceptions.check.tooWideImplicitThrowType` | Broad implicit throws without documentation |
 
-`phpstan-strict-rules` also enables (via `rules.neon`): `checkExplicitMixedMissingReturn`, `reportMaybesInMethodSignatures`, `reportMaybesInPropertyPhpDocTypes`, `polluteScopeWithLoopInitialAssignments: false`, and related scope-pollution guards.
+`phpstan-strict-rules` (via `rules.neon`, not duplicated in `phpstan.neon`) also enables: `checkDynamicProperties`, `checkExplicitMixedMissingReturn`, `reportMaybesInMethodSignatures`, `reportMaybesInPropertyPhpDocTypes`, `reportWrongPhpDocTypeInVarTag`, `reportNonIntStringArrayKey` (with bleeding edge), `polluteScopeWithLoopInitialAssignments: false`, and related scope-pollution guards.
+
+### Optional consumer overrides
+
+Not included in the shared ruleset (opt-in per project when ready):
+
+```neon
+# Consumer phpstan.neon — example: enforce @throws for checked exceptions
+parameters:
+  exceptions:
+    check:
+      missingCheckedExceptionInThrows: true
+    checkedExceptionClasses:
+      - 'YourApp\DomainException'
+```
+
+`exceptions.check.missingCheckedExceptionInThrows` requires defining `checkedExceptionClasses` or `checkedExceptionRegexes`. EaglePHP enables this as a project override; add it only when the codebase is ready.
+
+Other optional stricter flags (PHPStan 2.2+):
+
+```neon
+parameters:
+  reportUnsafeArrayStringKeyCasting: detect  # experimental; see PHPStan config reference
+```
 
 PHPStan does **not** require PHPDoc when native types suffice; missing type info is enforced at level 6+ and via type coverage.
 

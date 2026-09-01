@@ -24,7 +24,6 @@ parameters:
   checkArgumentsPassedByReference: true
   checkBenevolentUnionTypes: true
   checkClassCaseSensitivity: true
-  checkDynamicProperties: true
   checkMissingCallableSignature: true
   checkMissingOverrideMethodAttribute: true
   checkTooWideParameterOutInProtectedAndPublicMethods: true
@@ -39,7 +38,6 @@ parameters:
   reportPossiblyNonexistentConstantArrayOffset: true
   reportPossiblyNonexistentGeneralArrayOffset: true
   reportUnmatchedIgnoredErrors: true
-  reportWrongPhpDocTypeInVarTag: true
 
   # Impure state and docblock certainty settings
   rememberPossiblyImpureFunctionValues: false
