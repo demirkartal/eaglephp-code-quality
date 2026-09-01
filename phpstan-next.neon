@@ -1,5 +1,2 @@
-includes:
-  - phpstan.neon
-
 parameters:
   phpVersion: 80500

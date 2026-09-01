@@ -30,7 +30,10 @@ The installer is a transitive dependency of this package; `allow-plugins` must b
 
 ### PHPStan
 
-After installation, `phpstan/extension-installer` registers this package and all bundled extensions automatically. Your project root `phpstan.neon` should only define **paths**, optional **baseline**, and project-specific overrides — do not manually `include` vendor extension neon files.
+After installation, `phpstan/extension-installer` registers this package and all bundled extensions automatically. Your project root `phpstan.neon` should only define **paths**, optional **baseline**, and project-specific overrides:
+
+- Do **not** manually `include` `vendor/demirkartal/eaglephp-code-quality/phpstan.neon` — the extension installer loads the base ruleset.
+- Do **not** set `customRulesetUsed: true` in the consumer — it is declared in this package's `phpstan.neon`.
 
 ```neon
 # phpstan.neon (consumer project)
@@ -49,7 +52,7 @@ parameters:
 
 ### PHPStan next (PHP 8.5 target)
 
-Optional forward-compat check against `phpVersion: 80500`:
+Optional forward-compat check against `phpVersion: 80500`. Include your project `phpstan.neon` (paths/baseline) plus the vendor next profile — `phpstan-next.neon` only overrides `phpVersion`, so the base ruleset is not loaded twice:
 
 ```neon
 # phpstan.next.neon (consumer project)
@@ -141,6 +144,7 @@ These flags extend beyond Level 10:
 
 | Parameter | Purpose |
 | ----------- | --------- |
+| `customRulesetUsed` | `true` — required when the base ruleset is loaded via extension-installer (PHPStan 2.x) |
 | **Type coverage (`100%`)** | `constant`, `declare`, `param_type`, `property_type`, `return_type` |
 | **Type Perfect** | `no_empty_on_object`, `no_isset_on_object`, `no_param_type_removal` |
 | `checkArgumentsPassedByReference` | Types of variables passed by reference |
