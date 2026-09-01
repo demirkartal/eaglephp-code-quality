@@ -41,12 +41,14 @@
   },
   "scripts": {
     "analyse": "phpstan analyse -c tests/phpstan.neon --no-progress --error-format=table",
+    "analyse:rules-smoke": "php tests/assert-new-static-rule.php",
     "format": "pint",
     "format:check": "pint --config pint.json --test",
     "check": [
       "composer validate --strict",
       "@format:check",
-      "@analyse"
+      "@analyse",
+      "@analyse:rules-smoke"
     ]
   },
   "minimum-stability": "stable",

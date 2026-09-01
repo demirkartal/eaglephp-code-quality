@@ -1,10 +1,10 @@
 includes:
   - phar://phpstan.phar/conf/bleedingEdge.neon
+  - phar://phpstan.phar/conf/config.level10.neon
 
 parameters:
   customRulesetUsed: true
   phpVersion: 80400
-  level: 10
 
   # Enforce 100% strict type coverage across codebase
   type_coverage:

@@ -3,4 +3,4 @@ includes:
 
 parameters:
   paths:
-    - fixtures/Valid.php
+    - fixtures/NewStaticProbe.php

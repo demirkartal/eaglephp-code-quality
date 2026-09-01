@@ -34,6 +34,7 @@ After installation, `phpstan/extension-installer` registers this package and all
 
 - Do **not** manually `include` `vendor/demirkartal/eaglephp-code-quality/phpstan.neon` — the extension installer loads the base ruleset.
 - Do **not** set `customRulesetUsed: true` in the consumer — it is declared in this package's `phpstan.neon`.
+- With `customRulesetUsed: true`, built-in level rules are loaded via `config.level10.neon` in this package; setting only `parameters.level` in a consumer config does not register those rules.
 
 ```neon
 # phpstan.neon (consumer project)
@@ -102,7 +103,7 @@ Example `composer.json` scripts:
 | Laravel Pint | `^1.30` |
 | extension-installer | `^1.4` |
 
-Active config: [`phpstan.neon`](phpstan.neon) — `level: 10`, `phpVersion: 80400`.
+Active config: [`phpstan.neon`](phpstan.neon) — `config.level10.neon`, `phpVersion: 80400`.
 
 ## PHPStan rule levels
 
@@ -144,7 +145,7 @@ These flags extend beyond Level 10:
 
 | Parameter | Purpose |
 | ----------- | --------- |
-| `customRulesetUsed` | `true` — required when the base ruleset is loaded via extension-installer (PHPStan 2.x) |
+| `customRulesetUsed` | `true` — required when the base ruleset is loaded via extension-installer (PHPStan 2.x); paired with `config.level10.neon` to register built-in level rules |
 | **Type coverage (`100%`)** | `constant`, `declare`, `param_type`, `property_type`, `return_type` |
 | **Type Perfect** | `no_empty_on_object`, `no_isset_on_object`, `no_param_type_removal` |
 | `checkArgumentsPassedByReference` | Types of variables passed by reference |

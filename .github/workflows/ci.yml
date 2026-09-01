@@ -39,3 +39,6 @@ jobs:
 
       - name: Run PHPStan integration fixture
         run: composer analyse
+
+      - name: Run PHPStan level rules smoke test
+        run: composer analyse:rules-smoke
