@@ -38,6 +38,7 @@ parameters:
   reportPossiblyNonexistentConstantArrayOffset: true
   reportPossiblyNonexistentGeneralArrayOffset: true
   reportUnmatchedIgnoredErrors: true
+  reportUnsafeArrayStringKeyCasting: detect
 
   # Impure state and docblock certainty settings
   rememberPossiblyImpureFunctionValues: false

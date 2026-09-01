@@ -118,7 +118,7 @@ This package implements the [PHPStan “Want to go further?”](https://phpstan.
 | phpstan-strict-rules | Bundled; auto-loaded via extension-installer |
 | Bleeding Edge | `bleedingEdge.neon` included in `phpstan.neon` |
 | Level 10 | `config.level10.neon` chain (not just `parameters.level`) |
-| Extra strict parameters | `checkUninitializedProperties`, `checkBenevolentUnionTypes`, `rememberPossiblyImpureFunctionValues: false`, array offset checks, exception checks — see table below |
+| Extra strict parameters | `checkUninitializedProperties`, `checkBenevolentUnionTypes`, `rememberPossiblyImpureFunctionValues: false`, array offset checks, `reportUnsafeArrayStringKeyCasting: detect`, exception checks — see table below |
 | Framework extensions | **Consumer responsibility** — install Symfony/Doctrine/Laravel PHPStan extensions in your project if needed |
 
 Consumers do **not** need to duplicate vendor includes, `customRulesetUsed`, or `parameters.level` in their own `phpstan.neon`.
@@ -181,6 +181,7 @@ These flags extend beyond Level 10:
 | `reportPossiblyNonexistentConstantArrayOffset` | Array access with possibly missing constant keys |
 | `reportPossiblyNonexistentGeneralArrayOffset` | Dynamic array keys not statically proven |
 | `reportUnmatchedIgnoredErrors` | Stale `ignoreErrors` baseline entries fail CI |
+| `reportUnsafeArrayStringKeyCasting` | `detect` — narrows array key types when decimal-int strings may be cast to int at runtime (PHPStan 2.2+) |
 | `rememberPossiblyImpureFunctionValues` | `false` — no assuming identical non-pure call results |
 | `treatPhpDocTypesAsCertain` | `false` — defensive checks even when PHPDoc is present |
 | `exceptions.reportUncheckedExceptionDeadCatch` | `catch` for exceptions never thrown in `try` |
@@ -205,13 +206,6 @@ parameters:
 ```
 
 `exceptions.check.missingCheckedExceptionInThrows` requires defining `checkedExceptionClasses` or `checkedExceptionRegexes`. EaglePHP enables this as a project override; add it only when the codebase is ready.
-
-Other optional stricter flags (PHPStan 2.2+):
-
-```neon
-parameters:
-  reportUnsafeArrayStringKeyCasting: detect  # experimental; see PHPStan config reference
-```
 
 PHPStan does **not** require PHPDoc when native types suffice; missing type info is enforced at level 6+ and via type coverage.
 

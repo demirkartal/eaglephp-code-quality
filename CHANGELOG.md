@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2026-09-01
+
+### Added
+
+- Enable `reportUnsafeArrayStringKeyCasting: detect` in the shared ruleset — narrows array key types when decimal-int string keys may be silently cast to `int` at runtime (PHPStan 2.2+).
+
 ## [1.0.3] - 2026-09-01
 
 ### Changed
@@ -40,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Composer `phpstan-extension` registration via `phpstan/extension-installer`.
 - CI workflow: Composer validate, PHPStan integration fixture, Pint config check (PHP 8.4 and 8.5).
 
+[1.0.4]: https://github.com/demirkartal/eaglephp-code-quality/releases/tag/v1.0.4
 [1.0.3]: https://github.com/demirkartal/eaglephp-code-quality/releases/tag/v1.0.3
 [1.0.2]: https://github.com/demirkartal/eaglephp-code-quality/releases/tag/v1.0.2
 [1.0.1]: https://github.com/demirkartal/eaglephp-code-quality/releases/tag/v1.0.1
