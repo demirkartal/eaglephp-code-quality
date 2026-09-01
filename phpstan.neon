@@ -1,0 +1,55 @@
+includes:
+  - phar://phpstan.phar/conf/bleedingEdge.neon
+
+parameters:
+  phpVersion: 80400
+  level: 10
+
+  # Enforce 100% strict type coverage across codebase
+  type_coverage:
+    constant: 100
+    declare: 100
+    param_type: 100
+    property_type: 100
+    return_type: 100
+
+  # Type Perfect — opt-in narrowing rules (tomasvotruba/type-coverage)
+  type_perfect:
+    no_empty_on_object: true
+    no_isset_on_object: true
+    no_param_type_removal: true
+
+  # Strict type and reflection checks
+  checkArgumentsPassedByReference: true
+  checkBenevolentUnionTypes: true
+  checkClassCaseSensitivity: true
+  checkDynamicProperties: true
+  checkMissingCallableSignature: true
+  checkMissingOverrideMethodAttribute: true
+  checkTooWideParameterOutInProtectedAndPublicMethods: true
+  checkTooWideReturnTypesInProtectedAndPublicMethods: true
+  checkTooWideThrowTypesInProtectedAndPublicMethods: true
+  checkUninitializedProperties: true
+
+  # Reporting edge cases, logical flaws, and array operations
+  reportAlwaysTrueInLastCondition: true
+  reportAnyTypeWideningInVarTag: true
+  reportIgnoresWithoutComments: true
+  reportPossiblyNonexistentConstantArrayOffset: true
+  reportPossiblyNonexistentGeneralArrayOffset: true
+  reportUnmatchedIgnoredErrors: true
+  reportWrongPhpDocTypeInVarTag: true
+
+  # Impure state and docblock certainty settings
+  rememberPossiblyImpureFunctionValues: false
+  treatPhpDocTypesAsCertain: false
+
+  # Strict exception handling rules
+  exceptions:
+    reportUncheckedExceptionDeadCatch: true
+    uncheckedExceptionClasses:
+      - 'LogicException'
+      - 'RuntimeException'
+    check:
+      throwTypeCovariance: true
+      tooWideImplicitThrowType: true

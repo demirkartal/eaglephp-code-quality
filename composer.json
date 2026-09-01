@@ -1,0 +1,60 @@
+{
+  "name": "demirkartal/eaglephp-code-quality",
+  "description": "Unified PHPStan Level 10 ruleset, Pint configuration, and code quality suite for EaglePHP",
+  "type": "phpstan-extension",
+  "license": "MIT",
+  "homepage": "https://github.com/demirkartal/eaglephp-code-quality",
+  "keywords": [
+    "phpstan",
+    "phpstan-rules",
+    "pint",
+    "code-quality",
+    "eaglephp",
+    "php"
+  ],
+  "authors": [
+    {
+      "name": "Cem Demirkartal",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/demirkartal/eaglephp-code-quality/issues",
+    "source": "https://github.com/demirkartal/eaglephp-code-quality"
+  },
+  "require": {
+    "php": "^8.4 || ^8.5",
+    "laravel/pint": "^1.30",
+    "phpstan/extension-installer": "^1.4",
+    "phpstan/phpstan": "^2.2",
+    "phpstan/phpstan-deprecation-rules": "^2.0",
+    "phpstan/phpstan-phpunit": "^2.0",
+    "phpstan/phpstan-strict-rules": "^2.0",
+    "tomasvotruba/type-coverage": "^2.3"
+  },
+  "extra": {
+    "phpstan": {
+      "includes": [
+        "phpstan.neon"
+      ]
+    }
+  },
+  "scripts": {
+    "analyse": "phpstan analyse -c tests/phpstan.neon --no-progress --error-format=table",
+    "format": "pint",
+    "format:check": "pint --config pint.json --test",
+    "check": [
+      "composer validate --strict",
+      "@format:check",
+      "@analyse"
+    ]
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "config": {
+    "allow-plugins": {
+      "phpstan/extension-installer": true
+    },
+    "sort-packages": true
+  }
+}

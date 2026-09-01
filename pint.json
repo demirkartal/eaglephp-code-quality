@@ -1,0 +1,65 @@
+{
+  "preset": "per",
+  "risky": true,
+  "exclude": [
+    "coverage",
+    "var"
+  ],
+  "rules": {
+    "declare_strict_types": true,
+    "void_return": true,
+    "nullable_type_declaration_for_default_null_value": true,
+    "fully_qualified_strict_types": {
+      "import_symbols": true
+    },
+    "global_namespace_import": {
+      "import_classes": true,
+      "import_constants": true,
+      "import_functions": true
+    },
+    "ordered_imports": {
+      "imports_order": ["class", "function", "const"],
+      "sort_algorithm": "alpha"
+    },
+    "blank_line_before_statement": {
+      "statements": ["break", "continue", "declare", "return", "throw", "try", "for", "foreach", "if", "switch", "while"]
+    },
+    "class_attributes_separation": {
+      "elements": {
+        "const": "one",
+        "method": "one",
+        "property": "one",
+        "trait_import": "none"
+      }
+    },
+    "trailing_comma_in_multiline": {
+      "elements": ["arrays", "arguments", "parameters", "match"]
+    },
+
+    "single_line_comment_style": {
+      "comment_types": ["hash"]
+    },
+    "no_empty_comment": true,
+    "no_empty_phpdoc": true,
+    "no_superfluous_phpdoc_tags": true,
+    "phpdoc_indent": true,
+    "phpdoc_scalar": true,
+    "phpdoc_separation": true,
+    "phpdoc_trim": true,
+    "phpdoc_types": true,
+    "phpdoc_align": {
+      "align": "vertical",
+      "tags": ["param", "return", "throws"]
+    },
+    "phpdoc_order": {
+      "order": ["param", "return", "throws"]
+    },
+    "phpdoc_types_order": {
+      "null_adjustment": "always_last",
+      "sort_algorithm": "none"
+    },
+    "php_unit_test_case_static_method_calls": {
+      "call_type": "self"
+    }
+  }
+}
