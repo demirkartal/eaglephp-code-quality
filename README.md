@@ -74,6 +74,20 @@ Pint is **not** auto-wired; pass the shared config explicitly:
 ./vendor/bin/pint --config vendor/demirkartal/eaglephp-code-quality/pint.json
 ```
 
+#### Preset and standards
+
+[`pint.json`](pint.json) uses **`preset: per`** — PHP Evolving Recommendation ([PER-CS](https://cs.symfony.com/doc/ruleSets/PER-CS.html)), which builds on **PSR-12** and **PSR-1**. A separate `psr12` preset is not needed.
+
+Explicit rules extend PER with:
+
+- **Strict types** — `declare_strict_types`, `void_return`, import ordering
+- **PHPDoc (PHPStan Level 10 aligned)** — native types preferred; when PHPDoc remains, use modern notation (`array<T>`, `list<T>`), remove deprecated tags (`@access`, `@package`), enforce param order and summary punctuation
+- **Layout** — trailing commas, blank lines before statements, class attribute separation
+
+Rules **not** enabled (conflict with native-type / PHPStan policy): `phpdoc_add_missing_param_annotation`, `phpdoc_to_param_type`, `phpdoc_to_return_type`.
+
+After `composer update`, run `composer format` in consumer repos — PHPDoc diffs (`T[]` → `array<T>` / `list<T>`) are expected.
+
 Example `composer.json` scripts:
 
 ```json
@@ -92,7 +106,7 @@ Example `composer.json` scripts:
 - **100% type coverage** — native types enforced for constants, properties, parameters, and return types.
 - **Type Perfect rules** — disallows `empty()` / `isset()` on objects and parameter type removal in child classes.
 - **Auto-wired PHPStan extensions** — via `phpstan/extension-installer` on `composer install`.
-- **Unified Pint profile** — `per` preset with strict imports, PHPDoc, and trailing commas.
+- **Unified Pint profile** — `per` preset (PER > PSR-12), modern PHPDoc types, strict imports
 
 ## Core stack
 

@@ -58,6 +58,18 @@
       "null_adjustment": "always_last",
       "sort_algorithm": "none"
     },
+    "align_multiline_comment": true,
+    "phpdoc_array_type": true,
+    "phpdoc_inline_tag_normalizer": true,
+    "phpdoc_list_type": true,
+    "phpdoc_no_access": true,
+    "phpdoc_no_empty_return": true,
+    "phpdoc_no_package": true,
+    "phpdoc_param_order": true,
+    "phpdoc_single_line_var_spacing": true,
+    "phpdoc_summary": true,
+    "phpdoc_tag_casing": true,
+    "phpdoc_trim_consecutive_blank_line_separation": true,
     "php_unit_test_case_static_method_calls": {
       "call_type": "self"
     }

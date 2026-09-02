@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5] - 2026-09-02
+
+### Added
+
+- Pint PHPDoc rules: `phpdoc_array_type`, `phpdoc_list_type`, `phpdoc_summary`, `phpdoc_param_order`, deprecated tag removal (`phpdoc_no_access`, `phpdoc_no_package`), and related hygiene fixers — aligned with PHPStan Level 10 modern type notation.
+- `scripts/audit-pint-rules.php` and `composer audit:pint` — reports explicit rule coverage vs recommended PHPDoc set.
+- Pint PHPDoc smoke test (`composer format:rules-smoke`) and golden fixture.
+
 ## [1.0.4] - 2026-09-01
 
 ### Added
@@ -46,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Composer `phpstan-extension` registration via `phpstan/extension-installer`.
 - CI workflow: Composer validate, PHPStan integration fixture, Pint config check (PHP 8.4 and 8.5).
 
+[1.0.5]: https://github.com/demirkartal/eaglephp-code-quality/releases/tag/v1.0.5
 [1.0.4]: https://github.com/demirkartal/eaglephp-code-quality/releases/tag/v1.0.4
 [1.0.3]: https://github.com/demirkartal/eaglephp-code-quality/releases/tag/v1.0.3
 [1.0.2]: https://github.com/demirkartal/eaglephp-code-quality/releases/tag/v1.0.2

@@ -37,6 +37,12 @@ jobs:
       - name: Check Pint config
         run: composer format:check
 
+      - name: Run Pint PHPDoc rules smoke test
+        run: composer format:rules-smoke
+
+      - name: Audit Pint rules coverage
+        run: composer audit:pint
+
       - name: Run PHPStan integration fixture
         run: composer analyse
 
