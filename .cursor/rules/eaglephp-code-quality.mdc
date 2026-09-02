@@ -1,0 +1,42 @@
+---
+description: Shared PHPStan Level 10 and Pint PER config for the EaglePHP ecosystem
+alwaysApply: true
+---
+
+# EaglePHP Code Quality — agent invariants
+
+Shared **dev-only** package (`demirkartal/eaglephp-code-quality`). Not a runtime layer — no HTTP, DI, or domain code.
+
+## Docs before inventing
+
+0. Root `README.md` — install, PHPStan, Pint, consumer `phpstan.neon` shape
+1. Cross-package map (monorepo checkout): [`../STACK.md`](../STACK.md) § Document index (dev tooling row)
+
+## What this package owns
+
+| Tool | Config | Consumer usage |
+| ------ | -------- | ---------------- |
+| PHPStan Level 10 | `phpstan.neon` + `config.level10.neon` chain | Auto-loaded via `phpstan/extension-installer`; consumer sets **paths only** (+ baseline) |
+| Pint PER | `pint.json` | Explicit: `pint --config vendor/demirkartal/eaglephp-code-quality/pint.json` |
+| PHP 8.5 forward check | `phpstan-next.neon` | Optional: include from consumer `phpstan.next.neon` |
+
+## Consumer rules (do not break)
+
+- Do **not** `include` `vendor/.../phpstan.neon` manually in consumers — extension-installer loads it
+- Do **not** set `customRulesetUsed: true` in consumer projects
+- Do **not** set only `parameters.level` without the package ruleset chain
+- Pint is **not** auto-wired — every repo's `composer format` script must pass `--config vendor/demirkartal/eaglephp-code-quality/pint.json`
+
+## When editing rules here
+
+- Changing `phpstan.neon` / `pint.json` affects **all** ecosystem repos on next `composer update`
+- Run `composer check` in this package; spot-check `composer phpstan` + `composer format:check` in **eaglephp** and **eaglephp-platform** after rule changes
+- Prefer fixing consumer code over loosening rules; baseline entries only for legacy debt with a plan to remove
+
+## Verify
+
+```bash
+composer check
+# In sibling repos after composer update:
+# cd ../eaglephp && composer phpstan && composer format:check
+```

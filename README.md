@@ -6,6 +6,8 @@
 
 Shared PHPStan Level 10 ruleset and Laravel Pint configuration for EaglePHP ecosystem projects.
 
+Monorepo checkout: [`../STACK.md`](../STACK.md) (dev tooling row). Cursor agent rules: [`.cursor/rules/eaglephp-code-quality.mdc`](.cursor/rules/eaglephp-code-quality.mdc).
+
 ## Installation
 
 ```bash
