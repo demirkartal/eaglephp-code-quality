@@ -51,5 +51,6 @@ parameters:
       - 'LogicException'
       - 'RuntimeException'
     check:
+      missingCheckedExceptionInThrows: true
       throwTypeCovariance: true
       tooWideImplicitThrowType: true

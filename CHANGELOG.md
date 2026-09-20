@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-09-20
+
+### Added
+
+- Enable `exceptions.check.missingCheckedExceptionInThrows` in the shared ruleset — require `@throws` for checked exceptions (everything except `LogicException` / `RuntimeException` by default).
+- Smoke test `composer analyse:unchecked-merge` — proves consumer `uncheckedExceptionClasses` entries **merge** with the shared list (Logic/Runtime need not be re-listed).
+
+### Changed
+
+- README: document exception `@throws` as default; replace “optional override” with extending `uncheckedExceptionClasses` (merge vs `!:` replace); refresh Core stack resolve examples (PHPStan 2.2.14, Pint 1.32.1).
+
 ## [1.0.5] - 2026-09-02
 
 ### Added
@@ -54,6 +65,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Composer `phpstan-extension` registration via `phpstan/extension-installer`.
 - CI workflow: Composer validate, PHPStan integration fixture, Pint config check (PHP 8.4 and 8.5).
 
+[1.1.0]: https://github.com/demirkartal/eaglephp-code-quality/releases/tag/v1.1.0
 [1.0.5]: https://github.com/demirkartal/eaglephp-code-quality/releases/tag/v1.0.5
 [1.0.4]: https://github.com/demirkartal/eaglephp-code-quality/releases/tag/v1.0.4
 [1.0.3]: https://github.com/demirkartal/eaglephp-code-quality/releases/tag/v1.0.3

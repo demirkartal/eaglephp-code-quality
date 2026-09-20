@@ -1,0 +1,10 @@
+includes:
+  - ../phpstan.neon
+
+parameters:
+  paths:
+    - fixtures/UncheckedMergeProbe.php
+  exceptions:
+    uncheckedExceptionClasses:
+      # Only an extra class — LogicException / RuntimeException are NOT re-listed (merge proof)
+      - 'EaglePhpCodeQuality\Tests\Fixtures\ConsumerUncheckedException'

@@ -113,8 +113,8 @@ Example `composer.json` scripts:
 | Tool | Constraint | Resolves to (stable) |
 | ------ | ------------ | --------------------- |
 | PHP | `^8.4 \|\| ^8.5` | — |
-| PHPStan | `^2.2` | 2.2.x (e.g. 2.2.11) |
-| Laravel Pint | `^1.30` | 1.30.x (e.g. 1.30.5) |
+| PHPStan | `^2.2` | 2.2.x (e.g. 2.2.14) |
+| Laravel Pint | `^1.30` | 1.30.x+ (e.g. 1.32.1) |
 | extension-installer | `^1.4` | 1.4.x |
 | phpstan-strict-rules | `^2.0` | 2.0.x |
 | phpstan-phpunit | `^2.0` | 2.0.x |
@@ -200,26 +200,36 @@ These flags extend beyond Level 10:
 | `treatPhpDocTypesAsCertain` | `false` — defensive checks even when PHPDoc is present |
 | `exceptions.reportUncheckedExceptionDeadCatch` | `catch` for exceptions never thrown in `try` |
 | `exceptions.uncheckedExceptionClasses` | `LogicException`, `RuntimeException` exempt from checked flow |
+| `exceptions.check.missingCheckedExceptionInThrows` | Require `@throws` for checked exceptions thrown by functions/methods |
 | `exceptions.check.throwTypeCovariance` | Override may only throw same or narrower exceptions |
 | `exceptions.check.tooWideImplicitThrowType` | Broad implicit throws without documentation |
 
 `phpstan-strict-rules` (via `rules.neon`, not duplicated in `phpstan.neon`) also enables: `checkDynamicProperties`, `checkExplicitMixedMissingReturn`, `reportMaybesInMethodSignatures`, `reportMaybesInPropertyPhpDocTypes`, `reportWrongPhpDocTypeInVarTag`, `reportNonIntStringArrayKey` (with bleeding edge), `polluteScopeWithLoopInitialAssignments: false`, and related scope-pollution guards.
 
-### Optional consumer overrides
+### Extending `uncheckedExceptionClasses`
 
-Not included in the shared ruleset (opt-in per project when ready):
+Indexed NEON lists **merge** across included configs (append). Shared defaults (`LogicException`, `RuntimeException`) stay active when a consumer adds more entries — you do **not** need to re-list them. To replace the list entirely, use the NEON override suffix:
 
 ```neon
-# Consumer phpstan.neon — example: enforce @throws for checked exceptions
+# Consumer phpstan.neon — add project-specific unchecked types (lists merge)
 parameters:
   exceptions:
-    check:
-      missingCheckedExceptionInThrows: true
-    checkedExceptionClasses:
-      - 'YourApp\DomainException'
+    uncheckedExceptionClasses:
+      - 'Psr\Container\ContainerExceptionInterface'
+      - 'Psr\Container\NotFoundExceptionInterface'
 ```
 
-`exceptions.check.missingCheckedExceptionInThrows` requires defining `checkedExceptionClasses` or `checkedExceptionRegexes`. EaglePHP enables this as a project override; add it only when the codebase is ready.
+```neon
+# Replace the entire list (drops shared LogicException / RuntimeException)
+parameters:
+  exceptions:
+    uncheckedExceptionClasses!:
+      - 'App\Infrastructure\InfraException'
+```
+
+This merge behaviour is guarded by `composer analyse:unchecked-merge` (`tests/assert-unchecked-exception-merge.php`).
+
+`missingCheckedExceptionInThrows` does **not** require `checkedExceptionClasses` / `checkedExceptionRegexes` when using the unchecked-list mode (everything checked except listed classes). Those keys switch to the inverse model (only listed types are checked).
 
 PHPStan does **not** require PHPDoc when native types suffice; missing type info is enforced at level 6+ and via type coverage.
 
